@@ -1,10 +1,10 @@
 import tkinter as tk
 import os
-from google import genai
+# from google import genai
 import google.generativeai as genai
-import speech_recognition as sr    
+import speech_recognition as sr   
 import pyttsx3
-
+import requests
 from open_sites import open_sites
 from open_app import open_chrome, open_linux, open_cursor, open_sandbox
 from ai_pro import gen_ai
@@ -59,6 +59,38 @@ def stop_listening(event=None):
     global listening
     listening = False
     user_input.focus_set()  # Focus the input box for typing
+
+def get_news():
+    # API key (consider storing it in an environment variable instead)
+    api_key = 'b3453c25bd244728bf3c54bc3682d13f'
+
+    # Base URL
+    url = 'https://newsapi.org/v2/top-headlines'
+
+    # Parameters for the API request
+    params = {
+        'country': 'en',         # You can change this to another country code
+        'category': 'technology',  # Optional category filter
+        'pageSize': 10,          # Limit number of results
+        'apiKey': api_key        # API key
+    }
+
+    # Make the request
+    response = requests.get(url, params=params)
+
+    # Check response status
+    chat_box.config(state="normal")
+    if response.status_code == 200:
+        data = response.json()
+        for i, article in enumerate(data['articles'], 1):
+            chat_box.insert(tk.END, f"AI: {i}. {article['title']}\n", "ai")
+            chat_box.insert(tk.END, f"AI:    Source: {article['source']['name']}\n", "ai")
+            chat_box.insert(tk.END, f"AI:    URL: {article['url']}\n\n", "ai")
+    else:
+        chat_box.insert(tk.END, f"AI: Error: {response.status_code}\n", "ai")
+        chat_box.insert(tk.END, f"AI: {response.text}\n", "ai")
+    chat_box.config(state="disabled")
+    chat_box.see(tk.END)
 
 def send_message():
     user_msg = user_input.get()
@@ -132,6 +164,10 @@ def send_message():
             chat_box.config(state="disabled")
             speak("opening the site")
             open_sites(msg_lower)
+        
+        elif "news" in msg_lower:
+                get_news()   
+            
         else:
             try:
                 response = chat.send_message(user_msg)

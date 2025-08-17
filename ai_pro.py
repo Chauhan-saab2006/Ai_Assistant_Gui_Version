@@ -1,4 +1,3 @@
-from google import genai
 import google.generativeai as genai
 import speech_recognition as sr    
 import pyttsx3
@@ -7,8 +6,7 @@ import pyttsx3
 recognizer = sr.Recognizer()
 engine = pyttsx3.init()
 
-
-API_KEY = "AIzaSyD_E8mcnGagr9GFxWvpPLuf8K6YknCQvvE"
+API_KEY = "AIzaSyD5tyymvZOSG7stfLK-2i9EU0p1MY0_uPc"
 genai.configure(api_key=API_KEY)
 
 model = genai.GenerativeModel("gemini-2.0-flash-exp")
@@ -20,7 +18,6 @@ def speak(text):
     engine.say(text)
     engine.runAndWait()
 
-
 def gen_ai():
     while True:
         query = input("you: ")
@@ -31,4 +28,4 @@ def gen_ai():
             speak(f"{response.text}")
             speak(f"gemini: {response.text}")
         except Exception as e:
-            print("Error:", e)
+            print("apiexpired")

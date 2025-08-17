@@ -1,8 +1,6 @@
 import tkinter as tk
 import os
 
-from google import genai
-from google.genai import types
 import google.generativeai as genai
 import speech_recognition as sr    
 import webbrowser
@@ -61,5 +59,5 @@ def play_music():
         speak(f"Playing {song_name} on YouTube.")
         webbrowser.open(f"https://www.youtube.com/results?search_query={song_name}")
         time.sleep(5)
-        pyautogui.click(x=662, y=319)  # Adjust coordinates for your screen resolution
+        pyautogui.click(x=720, y=463)  # Adjust coordinates for your screen resolution
     
