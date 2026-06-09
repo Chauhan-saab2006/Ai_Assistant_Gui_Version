@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # AI Assistant GUI
 
 This project is a desktop AI assistant with a graphical user interface (GUI) built using Python and Tkinter. It supports chat, voice input, news headlines, app launching, music, time queries, and more. The assistant uses Google Gemini for AI chat and integrates with various APIs and local utilities.
